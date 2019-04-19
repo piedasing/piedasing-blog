@@ -21,8 +21,10 @@ tags: Nuxt、Vue、SSR
    ``` bash
     // 安裝 sass 跟 pug
     npm install node-sass sass-loader pug pug-plain-loader
+
     // 安裝 json-server
     npm install json-server
+
     // 安裝 style-resources (在每個.vue檔載入sass/scss檔)
     npm install @nuxtjs/style-resources
    ```
@@ -113,7 +115,7 @@ tags: Nuxt、Vue、SSR
 
   ```
 5. 在 pages 資料夾下新增 product.vue
-  ``` javascript
+  ``` bash
     <template lang='pug'>
       section.product
         nav
@@ -130,19 +132,11 @@ tags: Nuxt、Vue、SSR
 
     <script>
     import Card from '~/components/Card'
-    import { productAPI } from '~/httpService'
 
     export default {
       name: 'Product',
       components: {
         Card
-      },
-      async asyncData({isDev, route, store, env, params, query, req, res, redirect, error}) {
-        const { getProductList } = productAPI
-        let { data } = await getProductList()
-        return {
-          products: data
-        }
       },
       data() {
         return {
@@ -168,7 +162,7 @@ tags: Nuxt、Vue、SSR
     </style>
   ```
 6. 在 components 資料夾下新增 Card.vue
-  ``` javascript
+  ``` bash
     <template lang='pug'>
       .card.mb-3
         .img.card-img-top(:style="showImage(product.image)")
@@ -270,5 +264,222 @@ tags: Nuxt、Vue、SSR
   ```
 7. 在根目錄新增 httpService 資料夾(存放 api 要用到的資料)
   > ![httpService資料夾](nuxt-demo/api.jpg)
-8. 1
-9.  
+  > _httpService.js
+  ``` javascript
+  import axios from 'axios'
+
+  export default function (params) {
+    console.log(params)
+    const baseURL = 'http://localhost:3000'
+    const { method, header, url, path, auth, data } = params
+    let headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json;charset=utf-8',
+      ...header
+    }
+    if (auth) {
+      const user = JSON.parse(localStorage.getItem('user'))
+      headers = {
+        ...headers,
+        'Authorization': user ? user.access_token : ''
+      }
+    }
+    console.log(headers)
+
+    return axios({
+      method: method || 'get',
+      url: url || (baseURL + path),
+      withCredentials: true,
+      headers,
+      data
+    })
+  }
+  ```
+  > index.js
+  ``` javascript
+  import productAPI from './product'
+
+  export {
+    productAPI
+  }
+  ```
+  > product.js
+  ``` javascript
+  import httpService from './_httpService'
+
+  export default {
+    getProductList() {
+      const path = '/products'
+      return httpService({
+        method: 'get',
+        path
+      })
+    }
+  }
+  ```
+8. 在 static 資料夾內新增 db.json
+  > db.json
+  ``` json
+  {
+    "products": [
+      {
+        "id": 0,
+        "name": "焦糖馬卡龍",
+        "price": "450",
+        "image": "https://bit.ly/2Dwoxd7"
+      },
+      {
+        "id": 1,
+        "name": "焦糖馬卡龍",
+        "price": "450",
+        "image": "https://bit.ly/2QiWeQW"
+      },
+      {
+        "id": 2,
+        "name": "焦糖馬卡龍",
+        "price": "450",
+        "image": "https://bit.ly/2QbVsVR"
+      },
+      {
+        "id": 3,
+        "name": "焦糖馬卡龍",
+        "price": "1050",
+        "image": "https://bit.ly/2zKOP7w"
+      },
+      {
+        "id": 4,
+        "name": "焦糖馬卡龍",
+        "price": "450",
+        "image": "https://bit.ly/2zL5jN7"
+      },
+      {
+        "id": 5,
+        "name": "焦糖馬卡龍",
+        "price": "450",
+        "image": "https://bit.ly/2NcDVuB"
+      },
+      {
+        "id": 6,
+        "name": "焦糖馬卡龍",
+        "price": "1050",
+        "image": "https://bit.ly/2xPn7Eq"
+      },
+      {
+        "id": 7,
+        "name": "焦糖馬卡龍",
+        "price": "450",
+        "image": "https://bit.ly/2NcDVuB"
+      },
+      {
+        "id": 8,
+        "name": "焦糖馬卡龍",
+        "price": "450",
+        "image": "https://bit.ly/2OUteif"
+      }
+    ]
+  }
+  ```
+9.  在 package.json 內新增 db 的 npm 指令，並啟用 json-server
+  > ![command](nuxt-demo/command.jpg)
+  ``` bash
+    // 執行 json-server(監聽 static/db.json)
+    npm run db
+  ```
+10. 呼叫 api
+  > 在 product.vue 中 import httpService 內的 function
+  ``` js
+    import { productAPI } from '~/httpService'
+  ```
+  > 在 methods 中，新增 getProducts 的 function
+  ``` javascript
+    getProducts() {
+      const { getProductList } = productAPI
+      getProductList().then(res => {
+        console.log(res)
+        if (res.status === 200) {
+          this.products = res.data
+        }
+      })
+    }
+  ```
+  > 在 vue 的生命週期(mounted 或 created 等等)呼叫 getProducts
+  ``` javascript
+    mounted() {
+      this.getProducts()
+    }
+  ```
+11. 發現原始碼與 SPA 一樣，並沒有 SSR
+  > 原因是呼叫 api 取得資料的方式，仍為 CSR(Client Side Rendering) ，必須等 js 執行後，才會有畫面上的內容
+  > 但是，原始碼依然是空空如也(搜尋引擎爬蟲不執行 js)
+12. 調整 api 呼叫方式與使用 asyncData
+  > 將 call api 的方式改到 Nuxt 擴充的屬性 asyncData 內執行
+  > 透過 async/await 的方式，將資料確實寫入 products 中，nuxt 的 node js server 才會將畫面傳給瀏覽器端顯示
+  ``` javascript
+    async asyncData({isDev, route, store, env, params, query, req, res, redirect, error}) {
+      const { getProductList } = productAPI
+      let { data } = await getProductList()
+      return {
+        products: data
+      }
+    }
+  ```
+  > product.vue 最終完整程式碼
+  ``` bash
+    <template lang='pug'>
+      section.product
+        nav
+          ol.breadcrumb
+            li.breadcrumb-item
+              nuxt-link(to="/") 首頁
+            li.breadcrumb-item.active 產品
+        .container
+          .row.w-100
+            template(v-for="product in products")
+              .col-12.col-md-6.col-lg-4
+                Card(:product="product")
+    </template>
+
+    <script>
+    import Card from '~/components/Card'
+    import { productAPI } from '~/httpService'
+
+    export default {
+      name: 'Product',
+      components: {
+        Card
+      },
+      async asyncData({isDev, route, store, env, params, query, req, res, redirect, error}) {
+        const { getProductList } = productAPI
+        let { data } = await getProductList()
+        return {
+          products: data
+        }
+      },
+      data() {
+        return {
+          products: []
+        }
+      }
+    }
+    </script>
+
+    <style lang='scss'>
+    .product {
+      padding: 1rem 5%;
+      nav {
+        max-width: 1140px;
+        padding-left: 30px;
+        padding-right: 30px;
+        margin: 0 auto;
+      }
+      .row{
+        margin: 0 auto;
+      }
+    }
+    </style>
+  ```
+13. 心得
+  > 這是我接觸 Vue SPA 架構以來，第一次嘗試完成 SSR，原本以為會很困難，但是還好 Nuxt 已經幫我們處理大部分的功能，我們只需要把需要 SSR 的部分，在設定檔或是程式中告訴 Nuxt 就可以輕鬆達成。
+  > 
+  > 有了 Nuxt，製作 Vue 的專案又多了一個選項，因為 Nuxt 除了能夠幫我們製作 SSR 之外，也能將模式設定成 SPA(幾乎與 Vue-cli 所建立的專案是一樣的)，並且因為 Nuxt 幫我們擴充許多屬性，像是 SSR 需要用到的 head、asyncData 屬性，讓我們可以用原本寫 Vue 的方式，幾乎無痛上手，而且更加方便! 這也是為什麼 Nuxt 最近非常火熱的原因！!!
+  > 
