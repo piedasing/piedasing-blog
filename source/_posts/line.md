@@ -1,7 +1,7 @@
 ---
 title: Javascript 與 LINE 美麗的邂逅(1) - LINE Login
 date: 2019-10-07 14:14:23
-tags:
+tags: Javascript、LINE、LINE Login、LINE LIFF、LINE Messaging API
 ---
 
 ### 相關工具、套件、技術
