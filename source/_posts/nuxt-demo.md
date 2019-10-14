@@ -1,5 +1,5 @@
 ---
-title: nuxt-demo
+title: Nuxt-DEMO
 date: 2019-04-17 17:15:51
 tags: Nuxt、Vue、SSR
 ---
@@ -12,7 +12,7 @@ tags: Nuxt、Vue、SSR
 
 ### 步驟
 
-1. 新建 nuxt-app 專案
+1. 新建 Nuxt-App 專案
    ``` bash
     npx create-nuxt-app <專案名稱>
    ```

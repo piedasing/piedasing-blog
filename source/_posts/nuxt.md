@@ -1,5 +1,5 @@
 ---
-title: nuxt 環境安裝及架設
+title: Nuxt 環境安裝及架設
 date: 2019-02-20 16:25:57
 tags: Nuxt、Vue、SSR
 ---
@@ -13,18 +13,18 @@ tags: Nuxt、Vue、SSR
 > 3. Nuxt 也可以切換模式為 SPA ，與 vue-cli 腳手架類似，並且觀念幾乎相同
 
 > Nuxt 優點:
-> 1. vue-cli有的，Nuxt也有(例如: webpack、babel、熱重載、ESLint、SASS/SCSS)
+> 1. Vue-Cli有的，Nuxt也有(例如: Webpack、Babel、熱重載、ESLint、SASS/SCSS)
 > 2. 幫我們做 SSR
 > 3. 可自訂每個畫面的 Meta
-> 4. 路由可以自動產生(vue-cli 需要自己一個一個定義)
+> 4. 路由可以自動產生(Vue-Cli 需要自己一個一個定義)
 > 5. 可以做靜態站
 
 ### 步驟
 
-1. 安裝 node js
+1. 安裝 Node js
    > [https://nodejs.org/en/](https://nodejs.org/en/)
 ---
-2. 新建 nuxt-app 專案
+2. 新建 Nuxt-App 專案
    ``` bash
     npx create-nuxt-app <專案名稱>
    ```

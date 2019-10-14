@@ -1,5 +1,5 @@
 ---
-title: exif 處理圖片旋轉問題
+title: EXIF 處理圖片旋轉問題
 date: 2019-02-19 17:00:00
 tags: node js、 vue-cli 、 vue 、 async/await、 promise、 exif
 ---
@@ -18,10 +18,10 @@ tags: node js、 vue-cli 、 vue 、 async/await、 promise、 exif
 
 ### 目錄
 * [步驟Step](#步驟Step)
-  1. 安裝 node js
-  2. 安裝 vue-cli
-  3. 新建 vue 專案
-  4. 執行 dev server 確認 vue-cli 環境建置是否有問題
+  1. 安裝 Node js
+  2. 安裝 Vue-Cli
+  3. 新建 Vue 專案
+  4. 執行 dev server 確認 Vue-Cli 環境建置是否有問題
   5. 安裝 exif.js
   6. 在 components 資料夾內新增 ImageInput.vue
   7. 在元件內 template 放置 input 元素
@@ -37,10 +37,10 @@ tags: node js、 vue-cli 、 vue 、 async/await、 promise、 exif
 
 ### [步驟Step](步驟Step)
 
-1. 安裝 node js
+1. 安裝 Node js
   > [https://nodejs.org/en/](https://nodejs.org/en/)
   ---
-2. 安裝 vue-cli
+2. 安裝 Vue-Cli
    ``` bash
     npm install -g @vue/cli
    ```

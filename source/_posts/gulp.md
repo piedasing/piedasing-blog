@@ -1,5 +1,5 @@
 ---
-title: gulp 前端自動化
+title: Gulp 前端自動化
 date: 2019-02-18 16:11:04
 tags: gulp、browser-sync、gulp-rename、SASS/SCSS、gulp-autoprefixer
 ---
@@ -12,9 +12,9 @@ tags: gulp、browser-sync、gulp-rename、SASS/SCSS、gulp-autoprefixer
 
 ### 步驟
 
-1. 安裝 node js
+1. 安裝 Node js
    > [https://nodejs.org/en/](https://nodejs.org/en/)
-2. 安裝全域 gulp
+2. 安裝全域 Gulp
    ``` bash
     npm install -g gulp
    ```

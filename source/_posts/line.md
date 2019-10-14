@@ -101,4 +101,4 @@ tags: Javascript、LINE、LINE Login、LINE LIFF、LINE Messaging API
    > 在這個 LINE Login 應用中，其實是非常簡單的，幾乎不用寫什麼程式碼，就可以完成登入的動作
    > 在一些案子中，如果使用 LINE 的用戶，是比較居多，或是流程比較順暢的話，就可以考慮不要自建一個登入流程，而是改用 LINE 提供的 Login API ，這樣也會比較省事許多唷～
 
-   > 那麼 Login API 就介紹到這邊囉，接下來我們要進入更有趣的 LINE LIFF 領域
+   > 那麼 Login API 就介紹到這邊囉，接下來我們要進入更有趣的 LINE LIFF 囉。

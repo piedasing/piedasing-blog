@@ -6,7 +6,7 @@
 title: pieda
 subtitle: 技術記錄部落格
 description:
-keywords: vue, gulp, webpack, nuxt, ssr
+keywords: Vue, Gulp, Webpack, Nuxt, SSR, Pre-Render, LINE Messaging API
 author: pieda
 language:
 timezone:

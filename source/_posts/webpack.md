@@ -1,5 +1,5 @@
 ---
-title: webpack
+title: Webpack 打包工具
 date: 2019-05-25 10:48:16
 tags:
 ---
@@ -12,7 +12,7 @@ tags:
 
 ### 步驟
 
-1. 安裝node js
+1. 安裝 Node js
    > [https://nodejs.org/en/](https://nodejs.org/en/)
 
 2. 初始化專案
